@@ -1,55 +1,56 @@
 <template>
-  <g-signin-button
-     :params="googleSignInParams"
-     @success="onSignInSuccess"
-     @error="onSignInError">
-     Sign in with Google
-   </g-signin-button>
+  <div>
+    <h1>Calendário</h1>
+    <button @click="test()">Criar evento [debug]</button>
+    <vue-event-calendar :events="allEvents"></vue-event-calendar>
+  </div>
 </template>
 
 <script>
-import axios from 'axios';
+import 'vue-event-calendar/dist/style.css' //^1.1.10, CSS has been extracted as one file, so you 
+import axios from 'axios'
 
 export default {
   name: 'HelloWorld',
   data () {
     return {
-      /**
-       * The Auth2 parameters, as seen on
-       * https://developers.google.com/identity/sign-in/web/reference#gapiauth2initparams.
-       * As the very least, a valid client_id must present.
-       * @type {Object}
-       */
-      googleSignInParams: {
-        client_id: '955592758900-pfa889fd569vhg740tblsklgnoiqs621.apps.googleusercontent.com'
-      },
-      userProfile: {},
-      signInError: {},
+      allEvents: [],
     }
   },
   props: [
     'baseUrl',
   ],
-  methods: {
-    onSignInSuccess (googleUser) {
-      // `googleUser` is the GoogleUser object that represents the just-signed-in user.
-      // See https://developers.google.com/identity/sign-in/web/reference#users
-      const profile = googleUser.getAuthResponse().id_token;
-      this.userProfile = profile;
-      console.log(this.userProfile);
+  created() {
+    // date.getDate() + '/' + date.getMonth() + '/' + date.getFullYear()
 
-      // $http.get($rootScope.baseUrl + '/auth?idToken=' + gapi.auth2.getAuthInstance().currentUser.get().Zi.id_token).then(function(obj) {
-      axios.get(this.baseUrl + '/auth?idToken=' + googleUser.getAuthResponse().id_token)
-      .then(response => {
-        console.log(response);
-      })
-      .catch(e => {
-        this.signInError = e;
-      })
+    axios.get(this.baseUrl + '/api/event')
+    .then(response => {
+      this.allEvents = response.data;
+      console.log(this.allEvents);
+      this.modify()
+    }).catch(e => {
+      console.log(e);
+    })
+  },
+  beforeMount() {
+    
+  },
+  methods: {
+    test() {
+      console.log('test');
     },
-    onSignInError (error) {
-      // `error` contains any error occurred.
-      console.log('OH NOES', error)
+    modify() {
+      var events = this.allEvents
+      events.forEach(function(event, i) {
+          var date = new Date(event.startsAt);
+          event.startsAt = date.getFullYear() + '/' + ('0' + (date.getMonth()+1)).slice(-2) + '/' + ('0' + date.getDate()).slice(-2);
+          console.log(event.startsAt);
+      });
+      // console.log(events);
+      for (var i = 0; i < events.length; i++) {
+          this.allEvents[i].date = this.allEvents[i].startsAt;
+          delete this.allEvents[i].startsAt;
+        }
     }
   },
 }
@@ -57,16 +58,6 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-.g-signin-button {
-  /* This is where you control how the button looks. Be creative! */
-  display: inline-block;
-  padding: 4px 8px;
-  border-radius: 3px;
-  background-color: #3c82f7;
-  color: #fff;
-  box-shadow: 0 3px 0 #0f69ff;
-}
-
 h1, h2 {
   font-weight: normal;
 }
