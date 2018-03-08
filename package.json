@@ -16,7 +16,8 @@
     "node-sass": "^4.7.2",
     "sass-loader": "^6.0.6",
     "vue": "^2.5.2",
-    "vue-event-calendar": "^1.5.2",
+    "vue-event-calendar": "git+https://github.com/Nabihabou/vue-event-calendar.git",
+    "vue-events": "^3.1.0",
     "vue-google-signin-button": "^1.0.2",
     "vue-router": "^3.0.1"
   },

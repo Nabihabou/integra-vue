@@ -5,7 +5,9 @@ import App from './App'
 import router from './router'
 import GSignInButton from 'vue-google-signin-button'
 import vueEventCalendar from 'vue-event-calendar'
+import VueEvents from 'vue-events'
 
+Vue.use(VueEvents)
 
 Vue.use(vueEventCalendar, {locale: 'en'}) //locale can be 'zh' , 'en' , 'es', 'pt-br', 'ja', 'ko', 'fr', 'it', 'ru', 'de', 'vi'
 
@@ -18,5 +20,8 @@ new Vue({
   el: '#app',
   router,
   components: { App },
-  template: '<App/>'
+  template: '<App/>',
+  data: {
+  	authData: localStorage.getItem('ls.auth'),
+  }
 })

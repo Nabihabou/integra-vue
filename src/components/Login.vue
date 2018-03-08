@@ -26,12 +26,6 @@
     },
     data() {
       return {
-         /**
-         * The Auth2 parameters, as seen on
-         * https://developers.google.com/identity/sign-in/web/reference#gapiauth2initparams.
-         * As the very least, a valid client_id must present.
-         *@type {Object}
-         */
         googleSignInParams: {
           client_id: '955592758900-pfa889fd569vhg740tblsklgnoiqs621.apps.googleusercontent.com'
         },
@@ -47,10 +41,10 @@
       this.userProfile = profile;
       console.log(this.userProfile);
 
-      // $http.get($rootScope.baseUrl + '/auth?idToken=' + gapi.auth2.getAuthInstance().currentUser.get().Zi.id_token).then(function(obj) {
       axios.get(this.baseUrl + '/auth?idToken=' + googleUser.getAuthResponse().id_token)
       .then(response => {
         console.log(response.data);
+        localStorage.setItem('ls.auth', response.data.token)
         this.$router.push('/')
       })
       .catch(e => {
