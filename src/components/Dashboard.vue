@@ -1,10 +1,9 @@
 <template>
   <div>
-    <h1>Calendário</h1> <button type="button" @click="test()">TEST PURPOSES ONLY</button>
-    <button @click="test()">Criar evento [debug]</button>
+    <h1>Calendário</h1> 
+
     <vue-event-calendar :events="allEvents"></vue-event-calendar>
     
-
     <form id="eventForm">
       <h1>Criar evento</h1>
 
@@ -39,7 +38,7 @@ import 'vue-event-calendar/dist/style.css' //^1.1.10, CSS has been extracted as 
 import axios from 'axios'
 
 export default {
-  name: 'HelloWorld',
+  name: 'Dashboard',
   data () {
     return {
       allEvents: [],
@@ -59,7 +58,7 @@ export default {
   created() {
     // GET MY PROJECTS
     axios({
-      url: this.baseUrl + '/api/project/my',
+      url: this.$root.baseUrl + '/api/project/my',
       method: 'GET',
       headers: {
         'Authorization': 'Bearer ' + this.$root.authData }
@@ -72,7 +71,7 @@ export default {
     })
 
     // GET ALL EVENTS
-    axios.get(this.baseUrl + '/api/event')
+    axios.get(this.$root.baseUrl + '/api/event')
     .then(response => {
       this.allEvents = response.data;
       this.modify()
@@ -131,7 +130,7 @@ export default {
       var timeAndDate = new Date(date).setHours(parseInt(timeString));
 
       axios({
-          url: this.baseUrl + '/api/event',
+          url: this.$root.baseUrl + '/api/event',
           method: 'POST',
           headers: {
             'Authorization': 'Bearer ' + this.$root.authData,

@@ -6,6 +6,8 @@ import router from './router'
 import GSignInButton from 'vue-google-signin-button'
 import vueEventCalendar from 'vue-event-calendar'
 import VueEvents from 'vue-events'
+require('normalize.css');
+require('reset-css');
 
 Vue.use(VueEvents)
 
@@ -22,6 +24,7 @@ new Vue({
   components: { App },
   template: '<App/>',
   data: {
-  	authData: localStorage.getItem('ls.auth'),
+    authData: localStorage.getItem('ls.auth'),
+    baseUrl: 'http://ec2-54-207-86-56.sa-east-1.compute.amazonaws.com:8080',
   }
 })

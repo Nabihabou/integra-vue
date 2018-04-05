@@ -18,9 +18,7 @@
 
   export default  {
     name: 'LoginComponent',
-    props: [
-      'baseUrl',
-    ],
+    props: [],
     mounted() {
 
     },
@@ -41,7 +39,7 @@
       this.userProfile = profile;
       console.log(this.userProfile);
 
-      axios.get(this.baseUrl + '/auth?idToken=' + googleUser.getAuthResponse().id_token)
+      axios.get(this.$root.baseUrl + '/auth?idToken=' + googleUser.getAuthResponse().id_token)
       .then(response => {
         console.log(response.data);
         localStorage.setItem('ls.auth', response.data.token)
