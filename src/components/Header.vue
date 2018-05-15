@@ -5,7 +5,7 @@
         Header
       </header>
     </transition>
-    <router-view id="view"/>
+    <router-view @hideHeader="hide" :allProjects="this.allProjects" :class="{ view: showHeader } "/>
     <nav>
       <ul>
         <!-- <router-link to="/" tag="a" exact>Dash</router-link> -->
@@ -19,14 +19,33 @@
 </template>
 
 <script>
+import axios from 'axios'
+
 export default {
   name: 'Header',
   data() {
     return {
-      showHeader: Boolean,
+      showHeader: true,
+      allProjects: [],
     }
   },
-  created() {
+  beforeMount() {
+    if(this.allProjects = []) {
+      axios({
+        url: this.$root.baseUrl + '/project',
+        method: 'GET',
+        headers: {
+          'Authorization': 'Bearer ' + this.$root.authData }
+      })
+      .then(response => {
+        this.allProjects = response.data;
+        // console.log(response.data);
+      })
+      .catch(err => {
+        console.log(err)
+      })
+    } else {}
+
     let previousPosition = window.pageYOffset || document.documentElement.scrollTop;
     let vm = this;
 
@@ -43,13 +62,16 @@ export default {
     };
   },
   methods: {
-
+    hide() {
+      // console.log(this.showHeader);
+      this.showHeader = false;
+    }
   }
 }
 </script>
 
 <style scoped lang="scss">
-#view {
+.view {
   margin-top: 60px;
   margin-bottom: 40px;
 }

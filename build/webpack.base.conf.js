@@ -42,6 +42,24 @@ module.exports = {
         include: [resolve('src'), resolve('test'), resolve('node_modules/webpack-dev-server/client')]
       },
       {
+        test: /\.scss$/,
+        use: [
+          'vue-style-loader',
+          'css-loader',
+          {
+            loader: 'sass-loader',
+            options: {
+              // you can also read from a file, e.g. `variables.scss`
+              data: `$page-title-color: #737F8F;
+              $white: #fff;
+              $list-title-color: #CDCFD1;
+              $secondary-text-color: #CDCFD1; 
+              $terciary-text-color: #ABAFB5;`
+            }
+          }
+        ]
+      },
+      {
         test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
         loader: 'url-loader',
         options: {

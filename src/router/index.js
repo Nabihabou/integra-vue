@@ -1,14 +1,18 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Dashboard from '@/components/Dashboard'
-import LoginComponent from '@/components/Login'
-import Header from '@/components/Header'
-import Calendar from '@/components/Calendar'
-import Attendance from '@/components/Attendance'
-import Profile from '@/components/Profile'
-import Projects from '@/components/Projects'
-import StyleGuide from '@/components/Styles'
-import EaAttendance from '@/components/EaAttendance'
+const LoginComponent = () => import('@/components/Login')
+const Header = () => import('@/components/Header')
+const Calendar = () => import('@/components/Calendar')
+const Attendance = () => import('@/components/Attendance')
+const Profile = () => import('@/components/Profile')
+const Projects = () => import('@/components/Projects')
+const StyleGuide = () => import('@/components/Styles')
+const EaAttendance = () => import('@/components/EaAttendance')
+const AttendanceEach = () => import('@/components/AttendanceEach')
+const CreateAttendance = () => import('@/components/CreateAttendance')
+const ProjectView = () => import('@/components/ProjectView')
+const ProjectMembers = () => import('@/components/ProjectMembers')
 
 Vue.use(Router)
 
@@ -41,6 +45,16 @@ export default new Router({
           component: EaAttendance
         },
         {
+          path: '/attendance/:index/:id',
+          name: 'AttendanceEach',
+          component: AttendanceEach
+        },
+        {
+          path: '/createatt',
+          name: 'CreateAttendance',
+          component: CreateAttendance
+        },
+        {
           path: '/profile',
           name: 'Profile',
           component: Profile
@@ -49,6 +63,16 @@ export default new Router({
           path: '/projects',
           name: 'Projects',
           component: Projects
+        },
+        {
+          path: '/projects/:name/:index',
+          name: 'ProjectView',
+          component: ProjectView
+        },
+        {
+          path: '/projects/:name/:index/members',
+          name: 'ProjectMembers',
+          component: ProjectMembers
         },
       ]
     },
@@ -61,6 +85,6 @@ export default new Router({
       path: '/styleguide',
       name: 'styles',
       component: StyleGuide
-    }
+    },
   ]
 })

@@ -7,10 +7,10 @@
     <div class="att-wrapper">
       <h2 class="list-title">Meus projetos</h2>
       <ol class="list" >
-        <li class="item" v-for="(all, index) in [1, 2, 3, 4, 5, 6]" @click="goTo(index)">
-          <img  src="../assets/lotus.png" alt="" />
+        <li class="item" v-for="(project, index) in this.allProjects" @click="goTo(index)">
+          <img :src="'http://ec2-54-207-86-56.sa-east-1.compute.amazonaws.com:8080/' + project.logo" alt="" />
           <div class="item-info">
-            <h1 class="item-title">Lótus</h1>
+            <h1 class="item-title">{{project.name}}</h1>
             <h2 class="item-test">35 frequencias</h2>
           </div>
         </li>
@@ -25,7 +25,14 @@
 
   export default  {
     name: 'Attendance',
-    props: [],
+    props: [
+      'allProjects',
+    ],
+     data() {
+      return {
+       
+      }
+    },
     created() {
       axios({
         url: this.$root.baseUrl + '/api/frequency',
@@ -40,11 +47,6 @@
         console.log(err)
       })
     },
-    data() {
-      return {
-
-      }
-    },
     methods: {
       goTo(index) {
         this.$router.push({ path: '/attendance/' + index })
@@ -56,7 +58,7 @@
 }
 </script>
 
-<style lang="scss">
+<style scoped lang="scss">
 @import '../assets/scss/functions';
 @import '../assets/scss/colors';
 
@@ -121,6 +123,10 @@
     width: 6px;
     height: 11px;
     background: url('../assets/Vector.svg');
+  }
+
+  & img {
+    max-width: 76px;
   }
 }
 </style>

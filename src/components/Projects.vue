@@ -1,6 +1,10 @@
 <template>
     <div>
-
+      <div v-for="(project, index) in allProjects">
+        <router-link :to="{ name: 'ProjectView', params: { name: project.name, index: index }}" tag="li">
+          {{project.name}}
+        </router-link>
+      </div>
     </div>
 </template>
 
@@ -12,7 +16,10 @@ export default {
 
     }
   },
-  created() {
+  props: [
+    'allProjects',
+  ],
+  mounted() {
 
   },
   methods: {

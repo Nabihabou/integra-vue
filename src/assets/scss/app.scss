@@ -1,0 +1,24 @@
+@import 'colors';
+@import 'functions';
+
+.title-wrapper {
+  padding: 24px;
+}
+  
+.title {
+  font-size: em(22);
+  font-weight: 600;
+  color: $page-title-color;
+  text-transform: uppercase;
+}
+  
+.upper-title {
+  font-size: em(16);
+  color: #CDCFD1;
+  margin-bottom: 8px;
+}
+
+input {
+  outline: none !important;
+  box-sizing: border-box;
+}
