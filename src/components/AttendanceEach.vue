@@ -78,36 +78,41 @@ import axios from 'axios';
     },
     methods: {
       changePresent(member) {
-        
-        let hours = this.frequency.duration;
+        if (member.attended == false) {
+          var hours = this.frequency.duration;
+        } else {
+          var hours = 0;
+        }
         axios({
-            url: this.$root.baseUrl + '/api/frequency',
-            method: 'PUT',
-            data: {
-              memberId: member._id,
-              frequencyId: this.frequency._id,
-              hours: hours,
-            },
-            headers: {
-            'Authorization': 'Bearer ' + this.$root.authData }
-        })
-        .then(response => {
-          console.log(response.data);
-        })
-        .catch(err => {
-            console.log(err)
-        })
+              url: this.$root.baseUrl + '/api/frequency',
+              method: 'PUT',
+              data: {
+                memberId: member._id,
+                frequencyId: this.frequency._id,
+                hours: hours,
+              },
+              headers: {
+              'Authorization': 'Bearer ' + this.$root.authData }
+          })
+          .then(response => {
+            console.log(response.data);
+          })
+          .catch(err => {
+              console.log(err)
+          })
       },
-
       check() {
         for (let i = 0; i < this.frequency.presents.length; i++) {
-          this.attended.push(this.frequency.presents[i].member);
+          if (this.frequency.presents[i].hours > 0) {
+            this.attended.push(this.frequency.presents[i].member);
+          }
         }  
         for (let i = 0; i < this.members.length; i++) {
+                this.members[i].attended = false;          
           for (let j = 0; j < this.attended.length; j++) {
             if (this.members[i]._id === this.attended[j]) {
               this.members[i].attended = true;
-              }
+              } 
             }
           }
         },

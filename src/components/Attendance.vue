@@ -1,17 +1,18 @@
 <template>
   <section class="attendance">
     <div class="title-wrapper">
-      <h1 class="title">Frequências</h1>
+      <h1 class="title">Frequências</h1> 
+      <router-link to="/createatt" tag="button" class="title-btn">Criar </router-link>
     </div>
     
-    <div class="att-wrapper">
+    <div class="list-wrapper">
       <h2 class="list-title">Meus projetos</h2>
       <ol class="list" >
         <li class="item" v-for="(project, index) in this.allProjects" @click="goTo(index)">
           <img :src="'http://ec2-54-207-86-56.sa-east-1.compute.amazonaws.com:8080/' + project.logo" alt="" />
           <div class="item-info">
             <h1 class="item-title">{{project.name}}</h1>
-            <h2 class="item-test">35 frequencias</h2>
+            <h2 class="item-test">{{project.frequencies.length}} <span v-if="project.frequencies.length > 1">frequências</span> <span v-else>frequência</span></h2>
           </div>
         </li>
       </ol>
@@ -63,6 +64,8 @@
 @import '../assets/scss/colors';
 
 .title-wrapper {
+  display: flex;
+  justify-content: space-between;
   padding: 24px;
 }
 
@@ -79,7 +82,22 @@
   margin-bottom: 8px;
 }
 
-.att-wrapper {
+.title-btn {
+  font-family: Montserrat;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+  font-size: 12px;
+  text-transform: uppercase;
+  background-color: transparent;
+
+  color: #3461BF;
+  border: 1px solid #4F87FB;
+  border-radius: 2px;
+  padding: 4px 12px;
+}
+
+.list-wrapper {
   background-color: $white;
   box-shadow: 0px 2px 0px rgba(0, 0, 0, 0.08);
   border-radius: 4px;

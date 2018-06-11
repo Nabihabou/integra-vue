@@ -1,11 +1,18 @@
 <template>
   <main>
     <transition name="slideUp">
-      <header v-show="showHeader">
+      <header v-if="headerOn" v-show="showHeader">
         Header
       </header>
     </transition>
-    <router-view @hideHeader="hide" :allProjects="this.allProjects" :class="{ view: showHeader } "/>
+    <router-view 
+      @remove-header="remove" 
+      @put-header="putBack"
+      @hideHeader="hide" 
+      @show-header="show" 
+
+      :allProjects="this.allProjects" 
+      :class="{ view: showHeader } "/>
     <nav>
       <ul>
         <!-- <router-link to="/" tag="a" exact>Dash</router-link> -->
@@ -26,7 +33,9 @@ export default {
   data() {
     return {
       showHeader: true,
+      headerOn: true,
       allProjects: [],
+      userProfile: []
     }
   },
   beforeMount() {
@@ -40,12 +49,13 @@ export default {
       .then(response => {
         this.allProjects = response.data;
         // console.log(response.data);
+        this.loadProfile()
       })
       .catch(err => {
         console.log(err)
       })
     } else {}
-
+  
     let previousPosition = window.pageYOffset || document.documentElement.scrollTop;
     let vm = this;
 
@@ -65,6 +75,30 @@ export default {
     hide() {
       // console.log(this.showHeader);
       this.showHeader = false;
+    },
+    show() {
+      this.showHeader = true;
+    },
+    remove() {
+      this.headerOn = false;
+    },
+    putBack() {
+      this.headerOn = true;
+    },
+    loadProfile() {
+      axios({
+        url: this.$root.baseUrl + '/api/profile/my',
+        method: 'GET',
+        headers: {
+          'Authorization': 'Bearer ' + this.$root.authData }
+      })
+      .then(response => {
+        // console.log(response.data);
+        this.userProfile = response.data
+      })
+      .catch(err => {
+        console.log(err)
+      })
     }
   }
 }

@@ -5,9 +5,9 @@
       <h1 class="title">{{this.$route.params.name}}</h1>
     </div>
 
-    <div class="project">
+    <div class="project" v-if="loaded">
       <div class="info">
-        <img class="project-logo" :src="'http://ec2-54-207-86-56.sa-east-1.compute.amazonaws.com:8080/' + this.project.logo" alt="">
+        <img class="project-logo" :src="test()" alt="">
         <div class="stats">
           <h1 class="p-stat">
             <span>{{project.members.length}}</span> membros
@@ -30,9 +30,11 @@
         <h1 class="section-title">Coordenadores</h1>
         <div class="coord">
           <div class="circles">
-            <div v-for="member in coord" class="member-circle"></div>
+            <div v-for="member in coord" class="member-circle" :key="member._id"></div>
           </div>
-          <router-link tag="a" :to="{ name: 'ProjectMembers' }" class="">Ver todos os membros</router-link>
+          <router-link tag="a" :to="{ name: 'ProjectMembers' }" class="">
+            Ver todos os membros
+          </router-link>
         </div>
       </div>
       <div class="next-events">
@@ -46,28 +48,43 @@
   export default {
     data() {
       return {
-        project: [],
+        project: {},
         coord: [],
+        loaded: false,
       }
     },
     props: [
       'allProjects',
     ],
-    beforeMount() {
-      setTimeout(() => {
+    mounted() {
+      // on page change
+      if(this.allProjects == []) {
         this.project = this.allProjects[this.$route.params.index]
 
         this.project.members.forEach(element => {
           if (element.level == 3) {
             this.coord.push(element._id)
           }
+          this.loaded = true;
         });
-      }, 20);
-
-      
+      } else {
+        this.project = this.allProjects[this.$route.params.index]
+        this.loaded = true;
+      }
     },
     methods: {
+      test() {
 
+          return 'http://ec2-54-207-86-56.sa-east-1.compute.amazonaws.com:8080/' + this.project.logo
+
+      }
+    },
+    watch: {
+      // on reload
+      allProjects() {
+        this.project = this.allProjects[this.$route.params.index];
+        this.loaded = true;
+      }
     }
   }
 </script>

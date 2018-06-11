@@ -1,41 +1,27 @@
 <template>
-  <div>
-    <h1>Calendário</h1> 
+  <div >
+    <div class="title-wrapper">
+      <h1 class="title">Calendário</h1> 
+      <router-link to="/calendar/create" tag="button" class="title-btn">Criar </router-link>
+    </div>
+    <vue-event-calendar 
+      @day-changed="openModal" 
+      :events="allEvents">
+    </vue-event-calendar>
 
-    <vue-event-calendar :events="allEvents"></vue-event-calendar>
-    
-    <form id="eventForm">
-      <h1>Criar evento</h1>
-
-      <label for="title">Titulo</label>
-      <input type="text" id="title" v-model="title" required>
-
-      <label for="title">Place</label>
-      <input type="text" id="place" v-model="place">
-
-      <label for="date">Date</label>
-      <input type="date" id="date" v-model="date">
-
-      <label for="time">Time</label>
-      <input type="time" id="time" v-model="time">
-
-      <label for="duration">Duration</label>
-      <input type="number" id="duration" v-model="duration" required>
-      
-      <div v-for="project in myProjects">
-        <label for="project._id">{{project.name}}</label>
-        <input type="radio" :id="project._id" :value="project" v-model="selectedProject">
-      </div>
-  
-      <button type="button" @click="sendEvent(title, place, date, selectedProject, time, duration)">Criar evento</button>
-    </form>
-    
+    <CalendarDay 
+      :dayEvents="dayEvents" 
+      :day="dayEvents[0].date"
+      @close-modal="closeModal()"
+      v-if="show">
+    </CalendarDay>
   </div>
 </template>
 
 <script>
 import 'vue-event-calendar/dist/style.css' //^1.1.10, CSS has been extracted as one file, so you 
 import axios from 'axios'
+import CalendarDay from './CalendarViewDay'
 
 export default {
   name: 'Dashboard',
@@ -50,11 +36,16 @@ export default {
       duration: 0,
       selectedProject: '',
       delete: {},
+      show: false,
+      dayEvents: '',
     }
   },
   props: [
     'baseUrl',
   ],
+  components: {
+    CalendarDay
+  },
   created() {
     // GET MY PROJECTS
     axios({
@@ -81,20 +72,13 @@ export default {
   },
   updated() {
     var events = this.allEvents;
-    // var test = events.filter(function(event){
-    //   return (event._id == "59efa08092295d297ff78522")
-    // });
-    // console.log(test);
-
-    // pos = events.map(function(e) { return e._id; }).indexOf('59c15991247c522cd8c99ff0');
-    // console.log(pos);
-
-    // this.test(pos);
 
     this.$events.on('delete-event', eventData => this.delete = eventData);
   },
   mounted() {
-    
+    this.$events.on('day-changed', response => {
+      console.log('aaa');
+    })
   },
   watch: {
     delete() {
@@ -176,10 +160,19 @@ export default {
       });
 
       for (var i = 0; i < events.length; i++) {
-          this.allEvents[i].date = this.allEvents[i].startsAt;
-          delete this.allEvents[i].startsAt;
-        }
-
+        this.allEvents[i].date = this.allEvents[i].startsAt;
+        delete this.allEvents[i].startsAt;
+      }
+    },
+    openModal(value) {
+      this.show = true;
+      this.dayEvents = value.events;
+      this.$emit('remove-header', '');
+    },
+    closeModal() {
+      this.show = false;
+      this.dayEvents = []
+      this.$emit('put-header', '')
     }
   },
 }
@@ -187,24 +180,50 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
+@import '../assets/scss/functions';
+@import '../assets/scss/colors';
+
+.title-wrapper {
+  display: flex;
+  justify-content: space-between;
+  padding: 24px;
+}
+
+.title {
+  font-size: em(22);
+  font-weight: 600;
+  color: $page-title-color;
+  text-transform: uppercase;
+}
+
+.upper-title {
+  font-size: em(16);
+  color: #CDCFD1;
+  margin-bottom: 8px;
+}
+
+.title-btn {
+  font-family: Montserrat;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+  font-size: 12px;
+  text-transform: uppercase;
+  background-color: transparent;
+
+  color: #3461BF;
+  border: 1px solid #4F87FB;
+  border-radius: 2px;
+  padding: 4px 12px;
+}
+
+.events-wrapper {
+  display: none
+}
+
 #eventForm {
   background-color: violet;
   margin-top: 50px;
   padding: 20px;
-}
-
-h1, h2 {
-  font-weight: normal;
-}
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-a {
-  color: #42b983;
 }
 </style>
