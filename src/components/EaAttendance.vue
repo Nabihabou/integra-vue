@@ -3,7 +3,7 @@
   <main>
     <div class="title-wrapper">
       <h2 class="upper-title">Frequencia</h2>
-      <h1 class="title">profile Component</h1>
+      <h1 class="title">{{projectName}}</h1>
     </div>
 
     <div>
@@ -35,16 +35,18 @@
         }, 50); 
       }
     },
-    mounted() {
-    },
     data() {
       return {
         allFrequencies: [],
+        projectName: ''
       }
     },
     props: [
       'allProjects',
     ],
+    mounted() {
+      this.projectName = this.allProjects[this.$route.params.index].name
+    },
     methods: {
       goToAttendance(index) {
         console.log('aa')

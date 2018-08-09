@@ -2,7 +2,7 @@
   <section class="attendance">
     <div class="title-wrapper">
       <h1 class="title">Frequências</h1> 
-      <router-link to="/createatt" tag="button" class="title-btn">Criar </router-link>
+      <router-link v-if="isAdmin()" to="/createatt" tag="button" class="title-btn">Criar </router-link>
     </div>
     
     <div class="list-wrapper">
@@ -28,29 +28,39 @@
     name: 'Attendance',
     props: [
       'allProjects',
+      'userProfile',
     ],
      data() {
       return {
        
       }
     },
-    created() {
-      axios({
-        url: this.$root.baseUrl + '/api/frequency',
-        method: 'GET',
-        headers: {
-          'Authorization': 'Bearer ' + this.$root.authData }
-      })
-      .then(response => {
-        console.log(response.data);
-      })
-      .catch(err => {
-        console.log(err)
-      })
+    mounted() {
+      // axios({
+      //   url: this.$root.baseUrl + '/api/frequency',
+      //   method: 'GET',
+      //   headers: {
+      //     'Authorization': 'Bearer ' + this.$root.authData }
+      // })
+      // .then(response => {
+      //   console.log('trabson');
+        
+      //   console.log(response.data);
+      // })
+      // .catch(err => {
+      //   console.log(err)
+      // })
     },
     methods: {
       goTo(index) {
         this.$router.push({ path: '/attendance/' + index })
+      },
+      isAdmin() {
+        if(this.userProfile.is_admin == true) {
+          return true
+        } else {
+          return false
+        }
       }
     },
     computed: {

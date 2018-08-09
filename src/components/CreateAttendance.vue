@@ -101,6 +101,9 @@
 		beforeMount() {
 			this.$emit('hideHeader', '')
     },
+    destroyed() {
+      this.$emit('show-header', null)
+    },
 		methods: {
 			send() {
         if (this.$v.$invalid) {

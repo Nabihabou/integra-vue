@@ -6,16 +6,28 @@ import router from './router'
 import GSignInButton from 'vue-google-signin-button'
 import vueEventCalendar from 'vue-event-calendar'
 import VueEvents from 'vue-events'
+import Vuelidate from 'vuelidate'
+import VueMq from 'vue-mq'
+
 require('normalize.css');
 require('reset-css');
 
+Vue.use(Vuelidate)
+
 Vue.use(VueEvents)
 
-Vue.use(vueEventCalendar, {locale: 'en'}) //locale can be 'zh' , 'en' , 'es', 'pt-br', 'ja', 'ko', 'fr', 'it', 'ru', 'de', 'vi'
+Vue.use(vueEventCalendar, {locale: 'pt-br'}) //locale can be 'zh' , 'en' , 'es', 'pt-br', 'ja', 'ko', 'fr', 'it', 'ru', 'de', 'vi'
 
 Vue.use(GSignInButton)
 
 Vue.config.productionTip = false
+
+Vue.use(VueMq, {
+  breakpoints: {
+    mobile: 767,
+    desktop: Infinity
+  }
+})
 
 /* eslint-disable no-new */
 new Vue({

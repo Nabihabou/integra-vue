@@ -1,20 +1,37 @@
 <template>
-  <div >
+  <div>
     <div class="title-wrapper">
-      <h1 class="title">Calendário</h1> 
-      <router-link to="/calendar/create" tag="button" class="title-btn">Criar </router-link>
+      <h1 class="title">Dashboard</h1> 
+      <!-- <router-link to="/calendar/create" tag="button" class="title-btn">Criar </router-link> -->
     </div>
-    <vue-event-calendar 
-      @day-changed="openModal" 
-      :events="allEvents">
-    </vue-event-calendar>
+    <div class="calendar-wrapper">
+      <div id="wrapper-1" style="flex: 2;">
+        <!-- <Alert></Alert> -->
 
-    <CalendarDay 
-      :dayEvents="dayEvents" 
-      :day="dayEvents[0].date"
-      @close-modal="closeModal()"
-      v-if="show">
-    </CalendarDay>
+        <div class="section-title-wrapper">
+          <h1 class="section-title">Calendário</h1> <Button v-if="$mq === 'mobile'" :title="'Criar evento'"></Button>
+        </div>
+
+        <vue-event-calendar 
+          @day-changed="openModal" 
+          :events="allEvents">
+        </vue-event-calendar>
+
+        <CalendarDay 
+          :dayEvents="dayEvents" 
+          :day="dayEvents[0].date"
+          @close-modal="closeModal()"
+          v-if="show">
+        </CalendarDay>
+      </div>
+
+      <!-- <div style="flex: 1">
+        <h1 class="section-title">Mensagens</h1>
+        <div class="messages-wrapper">
+
+        </div> -->
+      </div>
+    </div>
   </div>
 </template>
 
@@ -22,6 +39,8 @@
 import 'vue-event-calendar/dist/style.css' //^1.1.10, CSS has been extracted as one file, so you 
 import axios from 'axios'
 import CalendarDay from './CalendarViewDay'
+import Button from '@/components/helpers/Buttons'
+import Alert from '@/components/helpers/Alerts'
 
 export default {
   name: 'Dashboard',
@@ -44,7 +63,9 @@ export default {
     'baseUrl',
   ],
   components: {
-    CalendarDay
+    CalendarDay,
+    Button,
+    Alert,
   },
   created() {
     // GET MY PROJECTS
@@ -165,9 +186,12 @@ export default {
       }
     },
     openModal(value) {
-      this.show = true;
+      if (this.$mq === 'mobile') {
+        this.show = true;  
+        this.$emit('remove-header', '');
+      }
+      
       this.dayEvents = value.events;
-      this.$emit('remove-header', '');
     },
     closeModal() {
       this.show = false;
@@ -179,7 +203,7 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped lang="scss">
+<style lang="scss">
 @import '../assets/scss/functions';
 @import '../assets/scss/colors';
 
@@ -202,19 +226,42 @@ export default {
   margin-bottom: 8px;
 }
 
-.title-btn {
-  font-family: Montserrat;
-  font-style: normal;
-  font-weight: 600;
-  line-height: normal;
-  font-size: 12px;
-  text-transform: uppercase;
-  background-color: transparent;
+// NOT IN USE
+// .title-btn {
+//   font-family: Montserrat;
+//   font-style: normal;
+//   font-weight: 600;
+//   line-height: normal;
+//   font-size: 12px;
+//   text-transform: uppercase;
+//   background-color: transparent;
 
-  color: #3461BF;
-  border: 1px solid #4F87FB;
-  border-radius: 2px;
-  padding: 4px 12px;
+//   color: #3461BF;
+//   border: 1px solid #4F87FB;
+//   border-radius: 2px;
+//   padding: 4px 12px;
+// }
+
+.section-title {
+  font-size: em(12);
+  font-weight: 600;
+  // margin-left: 24px;
+  margin-bottom: 4px;
+  text-transform: uppercase;
+  color: rgba(71, 71, 71, 0.6);
+}
+
+.section-title-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 24px;
+  margin-bottom: 4px;
+  
+
+  & > .section-title {
+    margin-bottom: 0;
+  }
 }
 
 .events-wrapper {
@@ -225,5 +272,49 @@ export default {
   background-color: violet;
   margin-top: 50px;
   padding: 20px;
+}
+
+.messages-wrapper {
+  background: white;
+  width: 100%;
+  height: 100%;
+}
+
+#wrapper-1 {
+
+}
+
+@media (min-width: 767px) {
+  .calendar-wrapper {
+    display: flex;
+    margin: 0 80px;
+  }
+
+  .events-wrapper {
+    display: block;
+  }
+
+  .__vev_calendar-wrapper {
+    margin: unset;
+  }
+
+  .__vev_calendar-wrapper .cal-wrapper .cal-header {
+    background-color: transparent;
+  }
+
+  .title-wrapper {
+    margin-left: 80px;
+    padding-top: 40px;
+    padding-left: unset;
+  }
+
+  .section-title-wrapper {
+    padding-left: 4px;
+  }
+
+  #wrapper-1 {
+    margin-right: 16px;
+  }
+
 }
 </style>

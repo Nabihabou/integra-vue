@@ -2,7 +2,7 @@
   <main>
     <transition name="slideUp">
       <header v-if="headerOn" v-show="showHeader">
-        Header
+        {{$mq}}
       </header>
     </transition>
     <router-view 
@@ -10,16 +10,24 @@
       @put-header="putBack"
       @hideHeader="hide" 
       @show-header="show" 
-
+      :userProfile="this.userProfile"
       :allProjects="this.allProjects" 
       :class="{ view: showHeader } "/>
     <nav>
       <ul>
         <!-- <router-link to="/" tag="a" exact>Dash</router-link> -->
-        <router-link to="/" tag="a" exact><img src="../assets/calendar.svg" /></router-link>
-        <router-link to="/attendance" tag="a" exact><img src="../assets/clipboard.svg" /></router-link>
-        <router-link to="/projects" tag="a" exact><img src="../assets/projects.svg" /></router-link>
-        <router-link to="/oficios" tag="a" exact><img src="../assets/file.svg" /></router-link>
+        <router-link to="/" id="link1" tag="a" exact>
+          <span class="link-name" v-if="$mq === 'desktop'">Calendário</span>
+        </router-link>
+        <router-link to="/attendance" id="link2" tag="a" exact>
+          <span class="link-name" v-if="$mq === 'desktop'">Frequência</span>
+        </router-link>
+        <router-link to="/projects" id="link3" tag="a" exact>
+          <span class="link-name" v-if="$mq === 'desktop'">Projetos</span>
+        </router-link>
+        <router-link to="/oficios" id="link4" tag="a" exact>
+          <span class="link-name" v-if="$mq === 'desktop'">Ofícios</span>
+        </router-link>
       </ul>
     </nav>
   </main>
@@ -59,17 +67,19 @@ export default {
     let previousPosition = window.pageYOffset || document.documentElement.scrollTop;
     let vm = this;
 
-    window.onscroll = function() {
-      var currentPosition = window.pageYOffset || document.documentElement.scrollTop;
+    if(window.innerWidth <= 767) {
+      window.onscroll = function() {
+        var currentPosition = window.pageYOffset || document.documentElement.scrollTop;
 
-      if (previousPosition > currentPosition) {
-        vm.showHeader = true;
-      } else {
-        vm.showHeader = false;
-      }
+        if (previousPosition > currentPosition) {
+          vm.showHeader = true;
+        } else {
+          vm.showHeader = false;
+        }
 
-      previousPosition = currentPosition;
-    };
+        previousPosition = currentPosition;
+      };
+    }
   },
   methods: {
     hide() {
@@ -105,9 +115,11 @@ export default {
 </script>
 
 <style scoped lang="scss">
+@import '../assets/scss/colors';
+
 .view {
   margin-top: 60px;
-  margin-bottom: 40px;
+  // margin-bottom: 40px;
 }
 
 .slideUp-enter-active, .slideUp-leave-active {
@@ -128,6 +140,7 @@ header {
 }
 
 nav {
+  z-index: 3;
   position: fixed;
   bottom: 0;
   left: 0; right: 0;
@@ -141,5 +154,92 @@ ul {
   display: flex;
   justify-content: space-around;
   align-items: center;
+}
+
+// .router-link-active[href='/'] {
+//   background-image: url('../assets/calendar-active.svg');
+//   background-repeat: no-repeat;
+//   width: 20px;
+//   height: 22px
+// }
+
+#link1, #link2, #link3, #link4 {
+  background-repeat: no-repeat;
+}
+
+a#link1 {
+  background-image: url('../assets/calendar.svg');
+  width: 20px;
+  height: 22px;
+
+  &.router-link-active {
+    background-image: url('../assets/calendar-active.svg');
+  }
+}
+
+a#link2 {
+  background-image: url('../assets/clipboard.svg');
+  width: 20px;
+  height: 22px;
+
+  &.router-link-active {
+    background-image: url('../assets/clipboard-active.svg');
+  }
+}
+
+a#link3 {
+  background-image: url('../assets/projects.svg');
+  width: 24px;
+  height: 20px;
+
+  &.router-link-active {
+    background-image: url('../assets/projects-active.svg');
+  }
+}
+
+a#link4 {
+  background-image: url('../assets/file.svg');
+  width: 20px;
+  height: 22px;
+
+  &.router-link-active {
+    background-image: url('../assets/file-active.svg');
+  }
+}
+
+@media (min-width: 767px) {
+  header {
+    box-shadow: unset;
+  }
+
+  nav {
+    top: 60px;
+    padding-left: 60px;
+    bottom: unset;
+  }
+
+  .view {
+    margin-top: calc(60px + 55px);
+  }
+
+  ul {
+    display: block;
+  }
+
+  .router-link-active .link-name {
+    color: $nav-text-color--active;
+  }
+
+  .link-name {
+    color: $nav-text-color;
+    margin-left: 28px;
+    line-height: 22px;
+  }
+
+  #link1, #link2, #link3, #link4 {
+    & span {
+      margin-right: 60px
+    }
+  }
 }
 </style>

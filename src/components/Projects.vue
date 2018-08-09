@@ -93,7 +93,7 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
+<style scoped lang="scss">
 @import '../assets/scss/functions';
 @import '../assets/scss/colors';
 

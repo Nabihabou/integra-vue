@@ -13,6 +13,9 @@ const AttendanceEach = () => import('@/components/AttendanceEach')
 const CreateAttendance = () => import('@/components/CreateAttendance')
 const ProjectView = () => import('@/components/ProjectView')
 const ProjectMembers = () => import('@/components/ProjectMembers')
+const CreateEvent = () => import('@/components/CreateEvent')
+const Memos = () => import('@/components/Memos')
+// const CalendarDay = () => import('@/components/CalendarViewDay')
 
 Vue.use(Router)
 
@@ -33,6 +36,16 @@ export default new Router({
           path: '/calendar',
           name: 'Calendar',
           component: Calendar
+        },
+        // {
+        //   path: '/calendar/:day',
+        //   name: 'CalendarViewDay',
+        //   component: CalendarDay
+        // },
+        {
+          path: '/calendar/create',
+          name: 'CreateEvent',
+          component: CreateEvent
         },
         {
           path: '/attendance',
@@ -73,6 +86,11 @@ export default new Router({
           path: '/projects/:name/:index/members',
           name: 'ProjectMembers',
           component: ProjectMembers
+        },
+        {
+          path: '/oficios',
+          name: 'Memos',
+          component: Memos
         },
       ]
     },

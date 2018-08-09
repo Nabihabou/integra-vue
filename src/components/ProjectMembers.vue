@@ -4,27 +4,46 @@
       <h2 class="upper-title">Membros</h2>
       <h1 class="title">{{this.$route.params.name}}</h1>
     </div>
-
-    <div class="list-wrapper" v-if="isLoaded">
+    <PopOver
+      v-if="popOver.active"
+      :isActive="popOver.active"
+      :X="popOver.X"
+      :Y="popOver.Y">
+    </PopOver>
+    <div class="list-wrapper">
       <!-- <input v-model="searchInput" placeholder="Buscar por membro.." class="search-input" type="text">       -->
-      <ol class="list">
-        <h2 class="list-title">Todos os membros</h2>
-        <li v-for="member in members" class="item">
+      <h2 class="list-title">Todos os membros</h2>
+      <ol class="list" v-if="isLoaded">
+        <li v-for="member in members" :key="member._id" class="item">
           <div class="item-photo"></div>
           <div class="item-info">
             <span class="member-name" v-if="member.google_name == ''">{{member.google_email}}</span>
             <span class="member-name" v-else>{{member.google_name}}</span>
             <h3 class="member-email">{{member.google_email}}</h3>
-           </div>
-           <img class="item-edit" src="../assets/edit.svg" alt="">
+          </div>
+          <img @click="test(member)" class="item-edit" src="../assets/edit.svg" alt="">
         </li>
+        <!-- pop over -->
+        <!-- <div 
+          class="pop-over" 
+          v-if="popOver.active" 
+          :style="{ top: popOver.Y + 'px' }">
+          <div>
+            <h4>Modificar função</h4>
+            <h4>Remover membro</h4>
+          </div>
+        </div> -->
+        <!-- // -->
       </ol>
+      <h1 v-else>Carregando..</h1>
     </div>
   </main>
 </template>
 
 <script>
   import axios from 'axios';
+  const PopOver = () => import('@/components/helpers/PopOver')
+  // import PopOver from '@/components/helpers/PopOver'
 
   export default {
     name: 'ProjectMembers',
@@ -34,11 +53,19 @@
         members: [],
         searchInput: null,
         isScrolled: false,
+        popOver: {
+          active: false,
+          X: Number,
+          Y: Number
+        }
       }
     },
     props: [
       'allProjects',
     ],
+    components: {
+      PopOver,
+    },
     beforeMount() {
       // on page change
       if (this.members !== undefined) {
@@ -46,7 +73,6 @@
           this.members = this.allProjects[this.$route.params.index].members
           this.loadMembers()
         },400)
-        this.isLoaded = true;
       }
     },
     mounted() {
@@ -71,19 +97,23 @@
           .then(response => {
             // console.log(response.data)
             this.members = response.data
+            this.isLoaded = true;
           })
           .catch(err => {
             console.log(err)
         })
       },
       handleScroll () {
-        console.log(window.scrollY);
-        
         if(window.scrollY > 100) {
           this.isScrolled = true;
         } else {
           this.isScrolled = false;
         }
+      },
+      test(member) {
+        this.popOver.active = true;
+        this.popOver.Y = event.clientY
+        this.popOver.X = event.clientX
       }
     },
     watch: {
@@ -147,6 +177,7 @@
   background-color: $white;
   box-shadow: 0px 2px 0px rgba(0, 0, 0, 0.08);
   border-radius: 4px;
+  // padding: 16px 24px;
 }
 
 .list-title {

@@ -1,5 +1,4 @@
 <template lang="html">
-
   <section class="calendar">
     <h1>calendar Component</h1>
   </section>

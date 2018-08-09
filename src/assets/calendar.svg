@@ -1,25 +1,6 @@
-<svg width="20" height="22" viewBox="0 0 20 22" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-<title>calendar</title>
-<desc>Created using Figma</desc>
-<g id="Canvas" transform="translate(161 201)">
-<g id="calendar">
-<g id="Vector">
-<use xlink:href="#path0_stroke" transform="translate(-160 -198)" fill="#B4B9C2"/>
-</g>
-<g id="Vector">
-<use xlink:href="#path1_stroke" transform="translate(-147 -200)" fill="#B4B9C2"/>
-</g>
-<g id="Vector">
-<use xlink:href="#path1_stroke" transform="translate(-155 -200)" fill="#B4B9C2"/>
-</g>
-<g id="Vector">
-<use xlink:href="#path2_stroke" transform="translate(-160 -192)" fill="#B4B9C2"/>
-</g>
-</g>
-</g>
-<defs>
-<path id="path0_stroke" d="M 2 1L 16 1L 16 -1L 2 -1L 2 1ZM 16 1C 16.5523 1 17 1.44772 17 2L 19 2C 19 0.343146 17.6569 -1 16 -1L 16 1ZM 17 2L 17 16L 19 16L 19 2L 17 2ZM 17 16C 17 16.5523 16.5523 17 16 17L 16 19C 17.6569 19 19 17.6569 19 16L 17 16ZM 16 17L 2 17L 2 19L 16 19L 16 17ZM 2 17C 1.44772 17 1 16.5523 1 16L -1 16C -1 17.6569 0.343146 19 2 19L 2 17ZM 1 16L 1 2L -1 2L -1 16L 1 16ZM 1 2C 1 1.44772 1.44772 1 2 1L 2 -1C 0.343146 -1 -1 0.343146 -1 2L 1 2Z"/>
-<path id="path1_stroke" d="M 1 0C 1 -0.552285 0.552285 -1 0 -1C -0.552285 -1 -1 -0.552285 -1 0L 1 0ZM -1 4C -1 4.55228 -0.552285 5 0 5C 0.552285 5 1 4.55228 1 4L -1 4ZM -1 0L -1 4L 1 4L 1 0L -1 0Z"/>
-<path id="path2_stroke" d="M 0 -1C -0.552285 -1 -1 -0.552285 -1 0C -1 0.552285 -0.552285 1 0 1L 0 -1ZM 18 1C 18.5523 1 19 0.552285 19 0C 19 -0.552285 18.5523 -1 18 -1L 18 1ZM 0 1L 18 1L 18 -1L 0 -1L 0 1Z"/>
-</defs>
+<svg width="20" height="22" viewBox="0 0 20 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M3 2H17V0H3V2ZM17 2C17.5523 2 18 2.44772 18 3H20C20 1.34315 18.6569 0 17 0V2ZM18 3V17H20V3H18ZM18 17C18 17.5523 17.5523 18 17 18V20C18.6569 20 20 18.6569 20 17H18ZM17 18H3V20H17V18ZM3 18C2.44772 18 2 17.5523 2 17H0C0 18.6569 1.34315 20 3 20V18ZM2 17V3H0V17H2ZM2 3C2 2.44772 2.44772 2 3 2V0C1.34315 0 0 1.34315 0 3H2Z" transform="translate(0 2)" fill="#B4B9C2"/>
+<path d="M2 1C2 0.447715 1.55229 0 1 0C0.447715 0 0 0.447715 0 1H2ZM0 5C0 5.55228 0.447715 6 1 6C1.55229 6 2 5.55228 2 5H0ZM0 1V5H2V1H0Z" transform="translate(13)" fill="#B4B9C2"/>
+<path d="M2 1C2 0.447715 1.55229 0 1 0C0.447715 0 0 0.447715 0 1H2ZM0 5C0 5.55228 0.447715 6 1 6C1.55229 6 2 5.55228 2 5H0ZM0 1V5H2V1H0Z" transform="translate(5)" fill="#B4B9C2"/>
+<path d="M1 0C0.447715 0 0 0.447715 0 1C0 1.55229 0.447715 2 1 2V0ZM19 2C19.5523 2 20 1.55229 20 1C20 0.447715 19.5523 0 19 0V2ZM1 2H19V0H1V2Z" transform="translate(0 8)" fill="#B4B9C2"/>
 </svg>

@@ -103,8 +103,8 @@ export default {
   beforeMount() {
     this.$emit('hideHeader', '')
   },
-  mounted() {
-
+  destroyed() {
+    this.$emit('show-header', null)
   },
   methods: {
     send() {
@@ -150,7 +150,6 @@ export default {
 
 .title-wrapper {
 	display: flex;
-	margin: 32px;
 }
 
 .title {

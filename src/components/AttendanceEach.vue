@@ -11,8 +11,9 @@
           <div class="dateAndTime"><span>{{formatDate()}}</span> <span>{{frequency.category}}</span></div>
           <!-- <span>{{frequency.duration}}</span> -->
           <ol class="member-list">
-            <li v-for="member in project.members" class="item" v-if="project" :key="member._id">
-              {{member._id}} 
+            <li v-for="member in members" class="item" v-if="project" :key="member._id">
+              <span v-if="member.google_name !== ''">{{member.google_name}}</span>
+              <span v-else>{{member.google_email}}</span>
               <div class="checkbox">
                 <input type="checkbox" v-model="member.attended" @click="changePresent(member)">
               </div>
@@ -20,6 +21,7 @@
           </ol>
       </div>
     </div>
+    <div v-else>Carregando..</div>
   </main>
 
 </template>
@@ -45,10 +47,9 @@ import axios from 'axios';
             url: this.$root.baseUrl + '/api/frequency?id=' + this.$route.params.id,
             method: 'GET',
             headers: {
-            'Authorization': 'Bearer ' + this.$root.authData }
+            'Authorization': 'Bea rer ' + this.$root.authData }
           })
           .then(response => {
-              this.dataLoaded = true;
               this.frequency = response.data;
 
               this.check();
@@ -65,16 +66,15 @@ import axios from 'axios';
             'Authorization': 'Bearer ' + this.$root.authData }
           })
           .then(response => {
-              this.dataLoaded = true;
               this.project = response.data[this.$route.params.index];
               this.members = response.data[this.$route.params.index].members
 
-              this.check();
+              this.loadMembers();
           })
           .catch(err => {
               console.log(err)
           })
-        }
+      }
     },
     methods: {
       changePresent(member) {
@@ -98,7 +98,7 @@ import axios from 'axios';
             console.log(response.data);
           })
           .catch(err => {
-              console.log(err)
+            console.log(err)
           })
       },
       check() {
@@ -108,15 +108,37 @@ import axios from 'axios';
           }
         }  
         for (let i = 0; i < this.members.length; i++) {
-                this.members[i].attended = false;          
-          for (let j = 0; j < this.attended.length; j++) {
-            if (this.members[i]._id === this.attended[j]) {
-              this.members[i].attended = true;
-              } 
-            }
+          this.members[i].attended = false;          
+        for (let j = 0; j < this.attended.length; j++) {
+          if (this.members[i]._id === this.attended[j]) {
+            this.members[i].attended = true;
+            } 
           }
-        },
-
+        }
+      },
+      loadMembers() {
+        console.log('loading members');
+        
+        axios({
+          url: this.$root.baseUrl + '/api/profile/many',
+          method: 'POST',
+          data: {
+            ids: this.members.map(function(obj) {
+              return obj._id;
+            })  
+          },
+          headers: {
+            'Authorization': 'Bearer ' + this.$root.authData }
+          })
+          .then(response => {
+            this.dataLoaded = true;
+            this.members = response.data
+            this.check();
+          })
+          .catch(err => {
+            console.log(err)
+        })
+      },
       formatDate() {
         let date = new Date(this.frequency.date);
         return date.getDay() + '/' + date.getMonth() + '/' + date.getFullYear(); 
