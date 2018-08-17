@@ -14,6 +14,7 @@
 
         <vue-event-calendar 
           @day-changed="openModal" 
+          @go-to="createEvent()"
           :events="allEvents">
         </vue-event-calendar>
 
@@ -95,6 +96,10 @@ export default {
     var events = this.allEvents;
 
     this.$events.on('delete-event', eventData => this.delete = eventData);
+    this.$events.on('go-to', response => {
+      this.$router.push('/calendar/create')
+      this.$emit('hide-nav')
+    });
   },
   mounted() {
     this.$events.on('day-changed', response => {
@@ -197,6 +202,9 @@ export default {
       this.show = false;
       this.dayEvents = []
       this.$emit('put-header', '')
+    },
+    createEvent(){
+      console.log("TESTE");
     }
   },
 }

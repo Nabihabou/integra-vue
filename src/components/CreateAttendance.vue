@@ -100,9 +100,11 @@
 		],
 		beforeMount() {
 			this.$emit('hideHeader', '')
+      this.$emit('hide-nav')
     },
     destroyed() {
       this.$emit('show-header', null)
+      this.$emit('show-nav', null)
     },
 		methods: {
 			send() {

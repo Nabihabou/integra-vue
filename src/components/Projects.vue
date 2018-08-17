@@ -7,13 +7,13 @@
       <div class="tabs">
         <li 
           @click="active = 'left'"
-          class="l-tab" 
+          class="l-tab btn-projetos" 
           :class="{ 'active-tab': active == 'left' }">
           <h1>Meus projetos</h1>
         </li>
         <li
           @click="active = 'right'"
-          class="r-tab" 
+          class="r-tab btn-projetos" 
           :class="{ 'active-tab': active == 'right' }">
           <h1>Todos os projetos</h1>
         </li>
@@ -184,5 +184,9 @@ export default {
   & img {
     max-width: 76px;
   }
+}
+
+.btn-projetos{
+    cursor: pointer;
 }
 </style>

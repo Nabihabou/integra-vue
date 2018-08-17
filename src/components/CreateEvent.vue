@@ -60,6 +60,7 @@
 import axios from 'axios'
 import { required } from 'vuelidate/lib/validators'
 import BackArrow from '@/components/helpers/BackArrow.vue'
+import moment from 'moment-timezone';
 
 export default {
   name: 'CreateEvent',
@@ -104,12 +105,17 @@ export default {
     this.$emit('hideHeader', '')
   },
   destroyed() {
-    this.$emit('show-header', null)
+    this.$emit('show-header')
+    this.$emit('show-nav')
   },
   methods: {
     send() {
       var timeString = this.time.replace(/[:]/, ',');
-      var timeAndDate = new Date(this.date).setHours(parseInt(timeString));
+      var timeAndDate = moment(this.date).tz('America/Belem');
+      var hours = timeString.split(",");
+      timeAndDate = timeAndDate.hour(parseInt(hours[0])).minute(parseInt(hours[1])).format();
+
+      console.log(timeAndDate);
 
       if (this.$v.$invalid) {
         this.submitStatus = 'ERROR';
@@ -132,8 +138,9 @@ export default {
           })
           .then(response => {
             this.submitStatus = 'OK'
-            alert('evento criado')
+            alert('Evento criado')
             console.log(response.data)
+            history.go(-1)
           })
           .catch(err => {
             console.log(err)
