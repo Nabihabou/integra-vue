@@ -16,7 +16,7 @@
       :userProfile="this.userProfile"
       :allProjects="this.allProjects" 
       :class="{ view: showHeader } "/>
-    <nav v-show="showNav">
+    <nav v-show="navShow">
       <ul>
         <!-- <router-link to="/" tag="a" exact>Dash</router-link> -->
         <router-link to="/" id="link1" tag="a" exact>
@@ -44,7 +44,7 @@ export default {
   data() {
     return {
       showHeader: true,
-      showNav: true,
+      navShow: true,
       headerOn: true,
       allProjects: [],
       userProfile: []
@@ -115,10 +115,10 @@ export default {
       })
     },
     hideNav() {
-      this.showNav = false;
+      this.navShow = false;
     },
     showNav() {
-      this.showNav = true;
+      this.navShow = true;
     }
   }
 }

@@ -98,12 +98,11 @@ export default {
     this.$events.on('delete-event', eventData => this.delete = eventData);
     this.$events.on('go-to', response => {
       this.$router.push('/calendar/create')
-      this.$emit('hide-nav')
     });
   },
   mounted() {
     this.$events.on('day-changed', response => {
-      console.log('aaa');
+      console.log('calendar day changed');
     })
   },
   watch: {

@@ -1,29 +1,46 @@
 <template>
-<main>
-	<div class="title-wrapper">
-		<BackArrow></BackArrow>
-		<h1 class="title">Novo evento</h1>
-	</div>
-	<form @submit.prevent="send">
+  <main>
+   <div class="title-wrapper">
+    <BackArrow></BackArrow>
+    <h1 class="title">Novo evento</h1>
+  </div>
+  <form @submit.prevent="send">
     <div class="wrapper">
       <div class="input-group">
         <label for="title">Título</label>
         <input type="text" class="input" :class="{ 'input--error': !$v.title.required && submitStatus == 'ERROR' }" v-model.trim="$v.title.$model" placeholder="Insira o nome da atividade">
-          <span class="error" v-if="!$v.title.required && submitStatus == 'ERROR'">invalid</span>
+        <span class="error" v-if="!$v.title.required && submitStatus == 'ERROR'">invalid</span>
       </div>
 
       <div class="input-group">
         <label for="title">Local</label>
         <input type="text" class="input" :class="{ 'input--error': !$v.place.required && submitStatus == 'ERROR' }" v-model.trim="$v.place.$model" placeholder="Sala X, Sala Y...">
-          <span class="error" v-if="!$v.title.required && submitStatus == 'ERROR'">invalid</span>
+        <span class="error" v-if="!$v.title.required && submitStatus == 'ERROR'">invalid</span>
       </div>
       
       <div class="input-group">
-        <label for="title">Hora</label>
-        <input type="time" class="input" :class="{ 'input--error': !$v.time.required && submitStatus == 'ERROR' }" v-model.trim="$v.time.$model" placeholder="xx:xx">
-          <span class="error" v-if="!$v.time.required && submitStatus == 'ERROR'">invalid</span>
+        <div class="half-input">
+          <div class="date">
+            <label for="date">Data</label>
+            <input class="input" :class="{ 'input--error': !$v.date.$dirty && submitStatus == 'ERROR' }" type="date" v-model.trim="$v.date.$model">
+            <span class="error" v-if="!$v.date.$dirty && submitStatus == 'ERROR'">invalid</span>
+          </div>
+
+          <div class="time">
+            <label for="title">Horário</label>
+            <input type="time" class="input" :class="{ 'input--error': !$v.time.required && submitStatus == 'ERROR' }" v-model.trim="$v.time.$model" placeholder="xx:xx">
+            <span class="error" v-if="!$v.time.required && submitStatus == 'ERROR'">invalid</span>
+          </div>
+
+          <div class="duration">
+            <label for="date">Duração</label>
+            <input class="input" :class="{ 'input--error': !$v.duration.$dirty && submitStatus == 'ERROR' }" type="number" v-model.trim="$v.duration.$model" placeholder="horas" >
+            <span class="error" v-if="!$v.duration.$dirty && submitStatus == 'ERROR'">invalid</span>
+          </div>
+        </div>
       </div>
 
+      
       <div class="input-group">
         <label for="project">Projeto</label>
         <select :class="{ placeholder: selectedProject == 'Choose', 'input--error': !$v.selectedProject.$dirty && submitStatus == 'ERROR' }" class="input" id="project" v-model.trim="$v.selectedProject.$model" >
@@ -34,108 +51,94 @@
       </div>
 
 
-      <div class="input-group">
-        <div class="half-input">
-          <div class="date">
-            <label for="date">Data</label>
-            <input class="input" :class="{ 'input--error': !$v.date.$dirty && submitStatus == 'ERROR' }" type="date" v-model.trim="$v.date.$model">
-            <span class="error" v-if="!$v.date.$dirty && submitStatus == 'ERROR'">invalid</span>
-          </div>
-          <div class="duration">
-            <label for="date">Duração</label>
-            <input class="input" :class="{ 'input--error': !$v.duration.$dirty && submitStatus == 'ERROR' }" type="number" v-model.trim="$v.duration.$model" placeholder="2h" >
-            <span class="error" v-if="!$v.duration.$dirty && submitStatus == 'ERROR'">invalid</span>
-          </div>
-        </div>
-            
-      </div>
     </div>
 
     <button type="submit" class="submit-btn">Criar evento</button>  
-	</form>
+  </form>
 </main>
 </template>
 
 <script>
-import axios from 'axios'
-import { required } from 'vuelidate/lib/validators'
-import BackArrow from '@/components/helpers/BackArrow.vue'
-import moment from 'moment-timezone';
+  import axios from 'axios'
+  import { required } from 'vuelidate/lib/validators'
+  import BackArrow from '@/components/helpers/BackArrow.vue'
+  import moment from 'moment-timezone';
 
-export default {
-  name: 'CreateEvent',
-  data() {
-    return {
-      title: '',
-      place: '',
-      date: Date,
-      time: '',
-      duration: Number,
-      selectedProject: 'Choose',
-      submitStatus: null,
-    }
-  },
-  components: {
-    BackArrow,
-  },
-  props: [
+  export default {
+    name: 'CreateEvent',
+    data() {
+      return {
+        title: '',
+        place: '',
+        date: Date,
+        time: '',
+        duration: Number,
+        selectedProject: 'Choose',
+        submitStatus: null,
+      }
+    },
+    components: {
+      BackArrow,
+    },
+    props: [
     'allProjects',
-  ],
-  validations: {
-    title: {
-      required,
+    ],
+    validations: {
+      title: {
+        required,
+      },
+      place: {
+        required,
+      },
+      date: {
+        required,
+      },
+      time: {
+        required,
+      },
+      duration: {
+        required,
+      },
+      selectedProject: {
+        required,
+      }
     },
-    place: {
-      required,
+    beforeMount() {
+      this.$emit('hideHeader');
+      this.$emit('hide-nav');
     },
-    date: {
-      required,
+    destroyed() {
+      this.$emit('show-header');
+      this.$emit('show-nav');
     },
-    time: {
-      required,
-    },
-    duration: {
-      required,
-    },
-    selectedProject: {
-      required,
-    }
-  },
-  beforeMount() {
-    this.$emit('hideHeader', '')
-  },
-  destroyed() {
-    this.$emit('show-header')
-    this.$emit('show-nav')
-  },
-  methods: {
-    send() {
-      var timeString = this.time.replace(/[:]/, ',');
-      var timeAndDate = moment(this.date).tz('America/Belem');
-      var hours = timeString.split(",");
-      timeAndDate = timeAndDate.hour(parseInt(hours[0])).minute(parseInt(hours[1])).format();
+    methods: {
+      send() {
+        var timeString = this.time.replace(/[:]/, ',');
+        var timeAndDate = moment(this.date).tz('America/Belem');
+        var hours = timeString.split(",");
+        timeAndDate = timeAndDate.hour(parseInt(hours[0])).minute(parseInt(hours[1])).format();
 
-      console.log(timeAndDate);
+        console.log(timeAndDate);
 
-      if (this.$v.$invalid) {
-        this.submitStatus = 'ERROR';
-      } else {
-        this.submitStatus = 'PENDING'
-        axios({
-          url: this.$root.baseUrl + '/api/event',
-          method: 'POST',
-          data: {
-            title: this.title,
-            place: this.place,
-            projectId: this.selectedProject._id,
-            projectName: this.selectedProject.name,
-            startsAt: timeAndDate,
-            duration: this.duration,
-            date: this.date
-          },
-          headers: {
-            'Authorization': 'Bearer ' + this.$root.authData }
-          })
+        if (this.$v.$invalid) {
+          this.submitStatus = 'ERROR';
+        } else {
+          this.submitStatus = 'PENDING'
+          axios({
+            url: this.$root.baseUrl + '/api/event',
+            method: 'POST',
+            data: {
+              title: this.title,
+              place: this.place,
+              projectId: this.selectedProject._id,
+              projectName: this.selectedProject.name,
+              startsAt: timeAndDate,
+              duration: this.duration,
+              date: this.date
+            },
+            headers: {
+              'Authorization': 'Bearer ' + this.$root.authData }
+            })
           .then(response => {
             this.submitStatus = 'OK'
             alert('Evento criado')
@@ -207,7 +210,7 @@ input, select {
 }
 
 .submit-btn {
-  position: fixed;
+  /** position: fixed; */
   bottom: 58px;
   background-color: $primary-color;
   color: #fafafa;
