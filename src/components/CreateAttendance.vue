@@ -129,6 +129,7 @@
               this.submitStatus = 'OK'
               alert('Frequencia criada com sucesso')
               console.log(response.data)
+              history.go(-1)
             })
             .catch(err => {
               console.log(err)

@@ -12,7 +12,11 @@
           <img :src="'http://ec2-54-207-86-56.sa-east-1.compute.amazonaws.com:8080/' + project.logo" alt="" />
           <div class="item-info">
             <h1 class="item-title">{{project.name}}</h1>
-            <h2 class="item-test">{{project.frequencies.length}} <span v-if="project.frequencies.length > 1">frequências</span> <span v-else>frequência</span></h2>
+            <h2 class="item-test">
+              <span v-if="project.frequencies.length == 0">Nenhuma frequência</span>
+              <span v-else-if="project.frequencies.length > 1">{{project.frequencies.length}} frequências</span>
+              <span v-else>{{project.frequencies.length}} frequência</span>
+            </h2>
           </div>
         </li>
       </ol>
