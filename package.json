@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "axios": "^0.18.0",
+    "moment-timezone": "^0.5.21",
     "node-sass": "^4.7.2",
     "normalize.css": "^8.0.0",
     "reset-css": "^3.0.0",

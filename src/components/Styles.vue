@@ -59,4 +59,5 @@ main {
     text-align: center;
     white-space: nowrap;
 }
+
 </style>

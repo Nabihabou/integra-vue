@@ -2,7 +2,8 @@
   <main>
     <transition name="slideUp">
       <header v-if="headerOn" v-show="showHeader">
-        {{$mq}}
+        <img src="../assets/logo-niej.png" style="height: 50px; width: auto; margin: 4px;" />
+        <!-- {{$mq}} -->
       </header>
     </transition>
     <router-view 
@@ -10,10 +11,12 @@
       @put-header="putBack"
       @hideHeader="hide" 
       @show-header="show" 
+      @hide-nav="hideNav"
+      @show-nav="showNav"
       :userProfile="this.userProfile"
       :allProjects="this.allProjects" 
       :class="{ view: showHeader } "/>
-    <nav>
+    <nav v-show="navShow">
       <ul>
         <!-- <router-link to="/" tag="a" exact>Dash</router-link> -->
         <router-link to="/" id="link1" tag="a" exact>
@@ -41,6 +44,7 @@ export default {
   data() {
     return {
       showHeader: true,
+      navShow: true,
       headerOn: true,
       allProjects: [],
       userProfile: []
@@ -109,6 +113,12 @@ export default {
       .catch(err => {
         console.log(err)
       })
+    },
+    hideNav() {
+      this.navShow = false;
+    },
+    showNav() {
+      this.navShow = true;
     }
   }
 }

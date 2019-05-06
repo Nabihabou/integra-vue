@@ -13,8 +13,13 @@
         </div>
 
         <vue-event-calendar 
+<<<<<<< HEAD
           @day-changed="openModal"
           @go-to="goToCreateEvent()"
+=======
+          @day-changed="openModal" 
+          @go-to="createEvent()"
+>>>>>>> 0d2886f9d4d4d364b9cb2faa1c604606881c9d6b
           :events="allEvents">
         </vue-event-calendar>
 
@@ -97,10 +102,13 @@ export default {
     var events = this.allEvents;
 
     this.$events.on('delete-event', eventData => this.delete = eventData);
+    this.$events.on('go-to', response => {
+      this.$router.push('/calendar/create')
+    });
   },
   mounted() {
     this.$events.on('day-changed', response => {
-      console.log('aaa');
+      console.log('calendar day changed');
     })
   },
   watch: {
@@ -200,9 +208,14 @@ export default {
       this.dayEvents = []
       this.$emit('put-header', '')
     },
+<<<<<<< HEAD
     goToCreateEvent() {
       // console.log(payload);
       console.log( 'test');
+=======
+    createEvent(){
+      console.log("TESTE");
+>>>>>>> 0d2886f9d4d4d364b9cb2faa1c604606881c9d6b
     }
   },
 }

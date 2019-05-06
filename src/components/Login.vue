@@ -1,14 +1,23 @@
 <template lang="html">
 
-  <section class="login">
-    <h1>login Component</h1>
-    <g-signin-button
-     :params="googleSignInParams"
-     @success="onSignInSuccess"
-     @error="onSignInError">
-     Sign in with Google
-   </g-signin-button>
+
+  <div style="width: 300px; margin-left: auto; margin-right: auto; height: 450px; margin-top: 30px; border: #000 solid 2px; border-radius: 0; text-align: center;">
+
+    <img src="../assets/logo-niej.png" style="height: 50px; width: auto; margin: 100px 0px;" />
+
+    <br/>
+
+    <section class="login">
+      <g-signin-button
+      :params="googleSignInParams"
+      @success="onSignInSuccess"
+      @error="onSignInError">
+      Entrar com a conta do Google
+    </g-signin-button>
   </section>
+</div>
+
+
 
 </template>
 
@@ -48,8 +57,8 @@
       .catch(e => {
         this.signInError = e;
       })
-      },
-      onSignInError (error) {
+    },
+    onSignInError (error) {
         // `error` contains any error occurred.
         console.log('OH NOES', error)
       }
@@ -57,7 +66,7 @@
     computed: {
 
     }
-}
+  }
 </script>
 
 <style scoped>
@@ -69,5 +78,7 @@
   background-color: #3c82f7;
   color: #fff;
   box-shadow: 0 3px 0 #0f69ff;
+  cursor: pointer;
+  margin-top: 30px;
 }
 </style>

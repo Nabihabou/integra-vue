@@ -2,23 +2,29 @@
 
   <main>
     <div class="title-wrapper">
-      <h2 class="upper-title">Frequencia</h2>
+      <h2 class="upper-title">Frequência</h2>
       <h1 class="title">{{projectName}}</h1>
     </div>
 
-    <div>
+    <span v-if="allFrequencies.length > 0">
+
       <ol class="list">
-        <div v-for="(all, index) in allFrequencies">
+        <li class="item" v-for="(all, index) in allFrequencies">
           <router-link :to="{ name: 'AttendanceEach', params: { id: allFrequencies[index] }}" tag="li" class="item">
-            <div class="info">
-              <span class="att-type">[Reuniao]</span>
-              <span class="att-date">19/02/2018</span>
-              <span class="att-hour">19:30</span>
+            <div class="item-info">
+              <span class="att-type">Xxxxxxxxxxx xxxxxx</span>
+              <span class="att-date">XX/XX/XXXX</span>
+              <span class="att-hour">XX:XX</span>
             </div>
-            <h1 class="att-title">Titulo</h1>
+            <h1 class="att-title">{frequency.title}</h1>
           </router-link>
-        </div>
+        </li>
       </ol>
+
+    </span>
+
+    <span v-else><h4 style="margin: 0 10px;">Nenhuma frequência cadastrada neste projeto.</h4></span>
+
     </div>
   </main>
 
