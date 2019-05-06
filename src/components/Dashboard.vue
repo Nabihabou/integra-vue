@@ -13,10 +13,12 @@
         </div>
 
         <vue-event-calendar 
-          @day-changed="openModal" 
+          @day-changed="openModal"
+          @go-to="goToCreateEvent()"
           :events="allEvents">
         </vue-event-calendar>
 
+        <!-- mobile view only -->
         <CalendarDay 
           :dayEvents="dayEvents" 
           :day="dayEvents[0].date"
@@ -197,6 +199,10 @@ export default {
       this.show = false;
       this.dayEvents = []
       this.$emit('put-header', '')
+    },
+    goToCreateEvent() {
+      // console.log(payload);
+      console.log( 'test');
     }
   },
 }
